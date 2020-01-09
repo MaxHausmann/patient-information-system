@@ -1,0 +1,43 @@
+#:kivy 1.11.1
+
+<InvalidLoginPopup@Popup>:
+    auto_dismiss: True
+    title: "Ungültige Benutzerkennung"
+    title_align: "center"
+    size_hint: None, None
+    size: 300, 300
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10
+
+        Label:
+            text_size: self.width, None
+            text: "Der eingegebene Benutzername existiert nicht oder das Passwort ist nicht korrekt."
+            size: self.texture_size
+            halign: "center"
+            valign: "middle"
+        Button:
+            text: "Schließen"
+            on_release: root.dismiss()
+            size_hint: 1, 0.2
+
+<InvalidInputPopup@Popup>:
+    auto_dismiss: True
+    title: "Ungültige Eingabe"
+    title_align: "center"
+    size_hint: None, None
+    size: 300, 300
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10
+
+        Label:
+            text_size: self.width, None
+            text: "Der Benutzername darf nicht leer sein und muss einen Unterstrich als Trennung zwischen Vor- und Nachnamen besitzen. Weiterhin muss eine gültige Emailadresse eingegeben werden."
+            size: self.texture_size
+            halign: "center"
+            valign: "middle"
+        Button:
+            text: "Schließen"
+            on_release: root.dismiss()
+            size_hint: 1, 0.2

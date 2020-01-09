@@ -46,7 +46,7 @@ CREATE TABLE pat_diagnostics(
     pat_id      INTEGER(10) NOT NULL,
     user_id     INTEGER(10) NOT NULL,
     diagnostics TEXT        NOT NULL,
-    date        TEXT        NOT NULL,
+    created     TEXT        NOT NULL,
     FOREIGN KEY(pat_id)     REFERENCES patients(id),
     FOREIGN KEY(user_id)    REFERENCES users(id)
     );

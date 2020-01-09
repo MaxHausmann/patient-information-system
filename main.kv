@@ -1,0 +1,240 @@
+#:kivy 1.11.1
+
+#:include templates/button.kv
+#:include templates/label.kv
+#:include templates/popup.kv
+#:include templates/text_input.kv
+
+ScreenManager:
+    MainWindow:
+    LoginWindow:
+    CreateAccountWindow:
+    
+
+<LoginWindow>:
+    name: "login"
+    input_username: username
+    input_password: password
+
+    BoxLayout:
+
+        orientation: "vertical"
+        padding: root.width/4, root.height/3
+        spacing: 20
+
+        Label:
+            text: "LOGIN"
+            font_size: 35
+            text_size: self.size
+            halign: 'center'
+            valign: 'bottom'
+
+        FloatLayout:
+
+            canvas.before:
+                Color:
+                    rgba: .1, .1, .1, 1
+                Rectangle:
+                    size: self.width + 50, self.height + 20
+                    pos: self.pos[0] - 25, self.pos[1] - 25
+
+            StdFormLabel: 
+                text: "Benutzername"
+                pos_hint: {"x":0, "top":0.9}
+
+            StdFormInput:
+                id: username
+                pos_hint: {"x":0.3, "top":0.9}
+
+            StdFormLabel: 
+                text: "Passwort"
+                pos_hint: {"x":0, "top":0.6}
+
+            StdFormInput:
+                id: password
+                password: True
+                password_mask: "x"
+                pos_hint: {"x":0.3, "top":0.6}
+
+            StdFormButton:
+                text: "Neuer Account"
+                pos_hint: {"x":0, "top":0.2}
+                on_release: 
+                    root.btn_create_acc()
+                    root.manager.transition.direction = "right"
+
+            StdFormButton: 
+                text: "Einloggen"
+                background_color: 0, 153/255, 255/255, 1
+                pos_hint: {"x":0.5, "top":0.2}
+                on_release:
+                    root.btn_login()
+                    root.manager.transition.direction = "up"
+
+
+
+<MainWindow>:
+    name: "main"
+
+    canvas.before:
+        Color:
+            rgba: .1, .1, .1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "horizontal"
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 0.3, 1
+            pos_hint: {"left": 0}
+            spacing: 20
+            
+            BoxLayout:
+                size_hint: 1, 0.2
+                orientation: "vertical"
+                AnchorLayout:
+                    anchor_x: 'center'
+                    anchor_y: 'center'
+                    Widget:
+                        canvas:
+                            Color:
+                                rgb: 1, 1, 1
+                            Ellipse:
+                                size: 100, 100
+                                pos: self.pos
+                                source: "img/doctor_small.jpg"
+                        size_hint: None, None
+                Label:
+                    size_hint: 1, 0.1
+                    markup: True
+                    text: "[b]Maximilian Hausmann[/b]"
+                Label:
+                    size_hint: 1, 0.1
+                    text: "Innere Chirurgie"
+
+            BoxLayout: 
+                orientation: "vertical"
+                size_hint: 1, 0.05
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: 1, 0.3
+                spacing: 5
+                padding: 5
+
+                Button: 
+                    text: "Patient anlegen"
+                Button:
+                    text: "Patient suchen"
+                Button:
+                    text: "Patient abmelden"
+                Button:
+                    text: "Notfall"
+                Button:
+                    text: "Befundung"
+
+            BoxLayout: 
+                orientation: "vertical"
+                size_hint: 1, 0.3
+
+            BoxLayout:
+                size_hint: 1, 0.05
+                orientation: "vertical"
+                padding: 5
+                Button:
+                    text: "Logout"
+                
+        BoxLayout: 
+            orientation: "vertical"
+            size_hint: 0.7, 1
+            pos_hint: {"left": 0.3}
+
+            AnchorLayout:
+                anchor_x: "center"
+                anchor_y: "top"
+
+                Label:
+                    text: "Patient suchen"
+
+                TextInput:
+                    hint_text: "Name des Patienten"
+                    size_hint: 0.7, 0.03
+                    pos_hint: {"top": .4}
+                    write_tab: False
+                    multiline: False
+
+
+
+<CreateAccountWindow>:
+    name: "create_acc"
+    input_username: username
+    input_email: email
+    input_password: password
+
+    BoxLayout:
+
+        orientation: "vertical"
+        padding: root.width/4, root.height/3
+        spacing: 20
+
+        Label:
+            text: "NEUER ACCOUNT"
+            font_size: 35
+            text_size: self.size
+            halign: 'center'
+            valign: 'bottom'
+
+        FloatLayout:
+
+            canvas.before:
+                Color:
+                    rgba: .1, .1, .1, 1
+                Rectangle:
+                    size: self.width + 50, self.height + 20
+                    pos: self.pos[0] - 25, self.pos[1] - 25
+
+            StdFormLabel: 
+                text: "Benutzername"
+                pos_hint: {"x":0, "top":0.9}
+
+            StdFormInput:
+                id: username
+                hint_text: "Max_Mustermann"
+                pos_hint: {"x":0.3, "top":0.9}
+
+            StdFormLabel:
+                text: "Email-Adresse"
+                pos_hint: {"x":0, "top":0.65}
+
+            StdFormInput:
+                id: email
+                hint_text: "max.mustermann@uniklinikum.de"
+                pos_hint: {"x":0.3, "top":0.65}
+
+            StdFormLabel: 
+                text: "Passwort"
+                pos_hint: {"x":0, "top":0.4}
+
+            StdFormInput:
+                id: password
+                password: True
+                password_mask: "x"
+                pos_hint: {"x":0.3, "top":0.4}
+
+            StdFormButton:
+                text: "Abbrechen"
+                pos_hint: {"x":0, "top":0.1}
+                on_release: 
+                    root.btn_abort()
+                    root.manager.transition.direction = "left"
+
+            StdFormButton: 
+                text: "Erstellen"
+                background_color: 102/255, 255/255, 102/255, 1
+                pos_hint: {"x":0.5, "top":0.1}
+                on_release:
+                    root.btn_create_acc()
+                    root.manager.transition.direction = "left"

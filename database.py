@@ -3,7 +3,12 @@ import os
 from sqlite3 import Error
 from os.path import isfile
 
+"""
+Basic database routines for low-level communication and setup of the database
+"""
+
 class Database:
+    
     def __init__(self, filename):
         self.filename = filename
         self.connection_handle = None
@@ -48,6 +53,13 @@ class Database:
 
     def select_all(self, table, condition, values):
         return self._select(table, condition, values)
+
+    def delete(self, table, condition, values):
+        try:
+            return self.execute("DELETE FROM " + str(table) + " " + str(condition), values)
+        except Error as e:
+            print(e)
+            return False
 
     def exist(self, table, condition, values):
         fetch = self._select(table, condition, values, what="id").fetchone()
