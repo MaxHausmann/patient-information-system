@@ -1,0 +1,101 @@
+#:kivy 1.11.1
+
+<MainContentHome@AnchorLayout>:
+    name: "home"
+    anchor_x: "center"
+    anchor_y: "center"
+    
+    DynamicSearch:
+
+<MainContentCreatePatient@AnchorLayout>:
+    name: "create_patient"
+    anchor_x: "center"
+    anchor_y: "center"
+    checkbox_gender_is_male: True
+    input_surname: surname
+    input_first_name: first_name
+    input_birthday_day: birthday_day
+    input_birthday_month: birthday_month
+    input_birthday_year: birthday_year
+    input_phone: phone
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        size_hint: 1, 0.4
+
+        Label:
+            text: "PATIENT ANLEGEN"
+            font_size: 27
+            text_size: self.size
+            halign: 'center'
+            valign: 'bottom'
+
+        AnchorLayout:
+            anchor_x: "left"
+            InputLine:
+                spacing: 5
+                size_hint: 0.2, 1
+                CheckBox:
+                    group: "gender"
+                    active: True
+                    on_release:
+                        root.checkbox_gender_is_male = True
+                Label:
+                    text: "Herr"
+                CheckBox:
+                    group: "gender"
+                    on_release:
+                        root.checkbox_gender_is_male = False
+                Label:
+                    text: "Frau"
+
+        InputLine:
+            PatientFormLabel:
+                text: "Vorname"
+            PatientFormInput:
+                id: first_name
+                hint_text: "Maximilian"
+            
+        InputLine:
+            PatientFormLabel:
+                text: "Nachname"
+            PatientFormInput:
+                id: surname
+                hint_text: "Mustermann"
+
+        InputLine:
+            PatientFormLabel:
+                text: "Geburtsdatum"
+            InputLine:
+                PatientSpinner:
+                    id: birthday_day
+                    text: "1"
+                    values: [str(day) for day in range(1, 32)]
+                PatientSpinner:
+                    id: birthday_month
+                    text: "1"
+                    values: [str(month) for month in range(1, 13)]
+                PatientSpinner:
+                    id: birthday_year
+                    text: "1965"
+                    values: [str(year) for year in range(1920, 2021)]
+
+        InputLine:
+            PatientFormLabel:
+                text: "Telefonnummer"
+            PatientFormInput:
+                id: phone
+                hint_text: "+49 3641 1234"
+
+        InputLine:
+            PatientFormButtonSave:
+                text: "Speichern"
+                on_release: root.create_patient()
+
+                    
+<InputLine@BoxLayout>:
+    orientation: "horizontal"
+    spacing: 25
+
+

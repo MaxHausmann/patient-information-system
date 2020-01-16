@@ -6,4 +6,4 @@ class AbstractPersonModel(AbstractModel):
     """
     
     GENDER_M = "m"
-    GENDER_D = "d"
+    GENDER_F = "d"

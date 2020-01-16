@@ -4,10 +4,12 @@
 #:include templates/label.kv
 #:include templates/popup.kv
 #:include templates/text_input.kv
+#:include templates/main_content.kv
+#:include templates/dynamic_search.kv
 
 ScreenManager:
-    MainWindow:
     LoginWindow:
+    MainWindow:
     CreateAccountWindow:
     
 
@@ -75,6 +77,9 @@ ScreenManager:
 
 <MainWindow>:
     name: "main"
+    content_main: content_main
+    button_home: button_home
+    button_create_patient: button_create_patient
 
     canvas.before:
         Color:
@@ -111,9 +116,11 @@ ScreenManager:
                     size_hint: 1, 0.1
                     markup: True
                     text: "[b]Maximilian Hausmann[/b]"
+                    font_size: self.height
                 Label:
                     size_hint: 1, 0.1
                     text: "Innere Chirurgie"
+                    font_size: self.height
 
             BoxLayout: 
                 orientation: "vertical"
@@ -125,49 +132,50 @@ ScreenManager:
                 spacing: 5
                 padding: 5
 
-                Button: 
-                    text: "Patient anlegen"
-                Button:
+                NavButton:
                     text: "Patient suchen"
-                Button:
+                    id: button_home
+                    on_release:
+                        root.to_home()
+
+                NavButton: 
+                    text: "Patient anlegen"
+                    id: button_create_patient
+                    on_release:
+                        root.to_create_patient()
+                        
+                NavButton:
                     text: "Patient abmelden"
-                Button:
-                    text: "Notfall"
-                Button:
+                    disabled: True
+
+                NavButton:
                     text: "Befundung"
+                    disabled: True
 
             BoxLayout: 
                 orientation: "vertical"
                 size_hint: 1, 0.3
 
             BoxLayout:
-                size_hint: 1, 0.05
+                size_hint: 1, 0.1
                 orientation: "vertical"
                 padding: 5
-                Button:
+                NavButton:
+                    text: "Accounteinstellungen"
+                NavButton:
                     text: "Logout"
-                
-        BoxLayout: 
+
+        BoxLayout:
             orientation: "vertical"
             size_hint: 0.7, 1
             pos_hint: {"left": 0.3}
+            id: content_main
+            on_parent:
+                root.to_home()
+            MainContentHome:
+            MainContentCreatePatient:
 
-            AnchorLayout:
-                anchor_x: "center"
-                anchor_y: "top"
-
-                Label:
-                    text: "Patient suchen"
-
-                TextInput:
-                    hint_text: "Name des Patienten"
-                    size_hint: 0.7, 0.03
-                    pos_hint: {"top": .4}
-                    write_tab: False
-                    multiline: False
-
-
-
+   
 <CreateAccountWindow>:
     name: "create_acc"
     input_username: username

@@ -1,43 +1,41 @@
 #:kivy 1.11.1
 
-<InvalidLoginPopup@Popup>:
-    auto_dismiss: True
-    title: "Ungültige Benutzerkennung"
-    title_align: "center"
+<CustomPopup@Popup>:
     size_hint: None, None
     size: 300, 300
+    auto_dismiss: True
+    text: "FEHLER"
+    title_align: "center"
     BoxLayout:
         orientation: "vertical"
         padding: 10
-
-        Label:
+        Label: 
             text_size: self.width, None
-            text: "Der eingegebene Benutzername existiert nicht oder das Passwort ist nicht korrekt."
+            text: root.text
             size: self.texture_size
             halign: "center"
             valign: "middle"
         Button:
-            text: "Schließen"
+            text: "schließen"
             on_release: root.dismiss()
             size_hint: 1, 0.2
 
-<InvalidInputPopup@Popup>:
-    auto_dismiss: True
+<PatientCreationFailedPopup@CustomPopup>:
+    title: "Unbekannter Fehler"
+    text: "Der Patient konnte leider nicht angelegt werden."
+
+<PatientCreationSuccessPopup@CustomPopup>:
+    title: "Patient angelegt"
+    text: "Der Patient wurde erfolgreich angelegt."
+
+<PatientCreationInputFailedPopup@CustomPopup>:
     title: "Ungültige Eingabe"
-    title_align: "center"
-    size_hint: None, None
-    size: 300, 300
-    BoxLayout:
-        orientation: "vertical"
-        padding: 10
+    text: "Die Eingabe ist ungültig. Stellen Sie sicher, dass Vor- und Nachname sowie eine Telefonnummer hinterlegt ist."
 
-        Label:
-            text_size: self.width, None
-            text: "Der Benutzername darf nicht leer sein und muss einen Unterstrich als Trennung zwischen Vor- und Nachnamen besitzen. Weiterhin muss eine gültige Emailadresse eingegeben werden."
-            size: self.texture_size
-            halign: "center"
-            valign: "middle"
-        Button:
-            text: "Schließen"
-            on_release: root.dismiss()
-            size_hint: 1, 0.2
+<InvalidLoginPopup@CustonPopup>:
+    title: "Ungültige Benutzerkennung"
+    text: "Der eingegebene Benutzername existiert nicht oder das Passwort ist nicht korrekt."
+
+<InvalidInputPopup@CustonPopup>:
+    title: "Ungültige Eingabe"
+    text: "Der Benutzername darf nicht leer sein und muss einen Unterstrich als Trennung zwischen Vor- und Nachnamen besitzen. Weiterhin muss eine gültige Emailadresse eingegeben werden."

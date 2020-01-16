@@ -28,7 +28,7 @@ class User(AbstractPersonModel):
         self.pw_is_hashed = False
      
     def save(self):
-        if self.gender != self.GENDER_M and self.gender != self.GENDER_D:
+        if self.gender != self.GENDER_M and self.gender != self.GENDER_F:
             print("Setting gender to male.")
             self.gender = self.GENDER_M
         if self.status != self.STATUS_MD and self.status != self.STATUS_N and self.status != self.STATUS_A:
