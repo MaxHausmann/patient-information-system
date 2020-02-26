@@ -28,6 +28,7 @@ class AbstractModel(ABC):
             setattr(self, column[0], dataset[idx])
 
     def _get(self, field, value, return_cursor=False):
+        """Common get method for getting datasets. Returns cursor if parameter was set to True."""
         cursor = self.db.select_all(self.table_name, "WHERE " + str(field) +"=?", [value])
         if not cursor:
             raise self.not_found_exception
@@ -36,18 +37,20 @@ class AbstractModel(ABC):
         self._attach_to_attributes(cursor)
 
     def _get_last(self, field, value):
-        field = str(field)
-        cursor = self.db.select_all(self.table_name, "WHERE " + field +"=? ORDER BY id DESC LIMIT 1", [value])
+        """Get last dataset which was added to DB."""
+        cursor = self.db.select_all(self.table_name, "WHERE " + str(field) +"=? ORDER BY id DESC LIMIT 1", [value])
         if not cursor:
             raise self.not_found_exception
         self._attach_to_attributes(cursor)
 
     def _get_many(self, field, value):
+        """Get more than one dataset."""
         cursor = self._get(field, value, True)
         dataset = cursor.fetchall()
         return (cursor.description, dataset)
 
     def get_by_id(self, xid):
+        """Get dataset by id."""
         self._get(self.table_name + ".id", xid)
         return self
 

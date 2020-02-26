@@ -1,6 +1,7 @@
 #:kivy 1.11.1
 
 <DSLabel>:
+    markup: True
     canvas.before:
         Color:
             rgba:(0, .1, .1, 1) if self.selected else (0, 0, 0, 1)
@@ -10,7 +11,10 @@
 
 <DSSelection>:
     viewclass: "DSLabel"
+    item_container: item_container
+    
     SelectableRecycleBoxLayout:
+        id: item_container
         default_size: None, dp(56)
         default_size_hint: 1, None
         size_hint_y: None
@@ -18,13 +22,12 @@
         orientation: "vertical"
 
 <DSTextInput@TextInput>:
-    TextInput:
-        hint_text: "Name des Patienten"
-        size_hint: 1, 0.2
-        font_size: self.height * 0.6
-        cursor_color: 1, 1, 1, 1
-        write_tab: False
-        multiline: False
+    hint_text: "Name des Patienten"
+    size_hint: 1, 0.2
+    font_size: self.height * 0.6
+    cursor_color: 1, 1, 1, 1
+    write_tab: False
+    multiline: False
 
 <DynamicSearch@BoxLayout>:
     
@@ -33,6 +36,7 @@
     spacing: 10
     text_input: text_input
     selection: selection
+    item_container: selection.item_container
 
     Label:
         text: "PATIENT SUCHEN"

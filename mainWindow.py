@@ -5,6 +5,7 @@ from kivy.app import App
 from kivy.uix.anchorlayout import AnchorLayout
 from patient import Patient
 
+
 class MainWindow(Screen):
     
     content_main = ObjectProperty(None)
@@ -21,6 +22,7 @@ class MainWindow(Screen):
                 continue
             child.attr_backup = child.height, child.size_hint_y, child.opacity, child.disabled
             child.height, child.size_hint_y, child.opacity, child.disabled = 0, None, 0, True  # hide child
+            child.reset()
             self.highlight_button(child, reset=True)
 
     def to_home(self):
@@ -39,6 +41,15 @@ class MainWindow(Screen):
 
 class MainContentHome(AnchorLayout):
     name = StringProperty(None)
+    dynamic_search = ObjectProperty(None)
+
+    def on_enter(self):
+        self.reset()
+
+    def reset(self):
+        self.dynamic_search.text_input.text = ""
+        self.dynamic_search.selection.data = []
+
 
 class MainContentCreatePatient(AnchorLayout):
     
@@ -51,6 +62,9 @@ class MainContentCreatePatient(AnchorLayout):
     input_birthday_year = ObjectProperty(None)
     input_phone = ObjectProperty(None)
 
+    def on_enter(self):
+        self.reset()
+   
     def create_patient(self):
         app = App.get_running_app()
         db = app.DB
@@ -69,3 +83,12 @@ class MainContentCreatePatient(AnchorLayout):
                 Factory.PatientCreationFailedPopup().open()
         else:
             Factory.PatientCreationInputFailedPopup().open()
+
+    def reset(self):
+        self.checkbox_gender_is_male = True
+        self.input_surname.text = ""
+        self.input_first_name.text = ""
+        self.input_birthday_day.text = "1"
+        self.input_birthday_month.text = "1"
+        self.input_birthday_year.text = "1990"
+        self.input_phone.text = ""

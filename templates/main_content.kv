@@ -4,8 +4,10 @@
     name: "home"
     anchor_x: "center"
     anchor_y: "center"
+    dynamic_search: dynamic_search
     
     DynamicSearch:
+        id: dynamic_search
 
 <MainContentCreatePatient@AnchorLayout>:
     name: "create_patient"
@@ -38,13 +40,14 @@
                 size_hint: 0.2, 1
                 CheckBox:
                     group: "gender"
-                    active: True
+                    active: root.checkbox_gender_is_male
                     on_release:
                         root.checkbox_gender_is_male = True
                 Label:
                     text: "Herr"
                 CheckBox:
                     group: "gender"
+                    active: not root.checkbox_gender_is_male
                     on_release:
                         root.checkbox_gender_is_male = False
                 Label:
@@ -70,15 +73,12 @@
             InputLine:
                 PatientSpinner:
                     id: birthday_day
-                    text: "1"
                     values: [str(day) for day in range(1, 32)]
                 PatientSpinner:
                     id: birthday_month
-                    text: "1"
                     values: [str(month) for month in range(1, 13)]
                 PatientSpinner:
                     id: birthday_year
-                    text: "1965"
                     values: [str(year) for year in range(1920, 2021)]
 
         InputLine:

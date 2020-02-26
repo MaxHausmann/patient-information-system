@@ -39,3 +39,16 @@ class Patient(AbstractPersonModel):
         return self.db.update(self.table_name, "surname, firstname, gender, phone, birthday", "WHERE users.id=?",
                                 (self.surname, self.firstname, self.gender, self.phone, self.birthday))
 
+    def get_dynamic_search(self, text_input):
+        """Search for user by text input (can be incomplete). Behavior is like a static method.
+        Returns as many users as found."""
+        text_input = text_input.replace(",", " ")
+        text_input = "%" + str(text_input) + "%"
+        if text_input.count(" ") < 1: # search only for one word (could be surname or firstname)
+            cursor = self.db.select_all(self.table_name, "WHERE surname LIKE ? OR firstname LIKE ? ORDER BY surname DESC", [text_input, text_input])
+        else:  # search for two words -> more complicated
+            wildcard_1, wildcard_2 = text_input.replace("  ", " ").split(" ") # remove double spaces produced by comma replacement
+            cursor = self.db.select_all(self.table_name, "WHERE (surname LIKE ? AND firstname LIKE ?) OR (firstname LIKE ? AND surname LIKE ?) ORDER BY surname DESC", [wildcard_1, wildcard_2, wildcard_1, wildcard_2])
+        if not cursor is False:
+            return cursor.fetchall()
+
