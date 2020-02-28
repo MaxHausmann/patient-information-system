@@ -4,10 +4,11 @@
 #:include templates/label.kv
 #:include templates/popup.kv
 #:include templates/text_input.kv
-#:include templates/main_content.kv
+#:include templates/main_content/main_content.kv
 #:include templates/dynamic_search.kv
 
 ScreenManager:
+    
     MainWindow:
     LoginWindow:
     CreateAccountWindow:
@@ -80,6 +81,7 @@ ScreenManager:
     content_main: content_main
     button_home: button_home
     button_create_patient: button_create_patient
+    button_patient_overview: button_patient_overview
 
     canvas.before:
         Color:
@@ -93,7 +95,7 @@ ScreenManager:
 
         BoxLayout:
             orientation: "vertical"
-            size_hint: 0.3, 1
+            size_hint: 0.2, 1
             pos_hint: {"left": 0}
             spacing: 20
             
@@ -128,29 +130,32 @@ ScreenManager:
 
             BoxLayout:
                 orientation: "vertical"
-                size_hint: 1, 0.3
+                size_hint: 1, 0.2
                 spacing: 5
                 padding: 5
 
                 NavButton:
-                    text: "Patient suchen"
+                    text: "SUCHEN"
                     id: button_home
                     on_release:
                         root.to_home()
 
                 NavButton: 
-                    text: "Patient anlegen"
+                    text: "ANLEGEN"
                     id: button_create_patient
                     on_release:
                         root.to_create_patient()
                         
                 NavButton:
-                    text: "Patient abmelden"
+                    text: "DIAGNOSE"
+                    id: button_patient_overview
                     disabled: True
+                    on_release:
+                        root.to_patient_overview()
 
-                NavButton:
-                    text: "Befundung"
-                    disabled: True
+                #NavButton:
+                #    text: "Befundung"
+                #    disabled: True
 
             BoxLayout: 
                 orientation: "vertical"
@@ -167,13 +172,16 @@ ScreenManager:
 
         BoxLayout:
             orientation: "vertical"
-            size_hint: 0.7, 1
+            size_hint: 0.8, 1
             pos_hint: {"left": 0.3}
             id: content_main
             on_parent:
-                root.to_home()
+                #root.to_home()
+                root.to_patient_overview()
+            MainContentPatientOverview:
             MainContentHome:
             MainContentCreatePatient:
+            
 
    
 <CreateAccountWindow>:

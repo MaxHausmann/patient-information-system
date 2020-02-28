@@ -1,7 +1,7 @@
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.label import Label
-from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, StringProperty
+from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty
 from kivy.uix.recycleboxlayout import RecycleBoxLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
@@ -130,7 +130,9 @@ class DynamicSearch(BoxLayout):
     def select_patient(self):
         child_id = self.item_container.get_selected_child()
         patient_id = self.selection.data[child_id]["patient_id"]
-        print("pat-id " + str(patient_id))
+        app = App.get_running_app()
+        app.GLOBAL_PAT_ID = patient_id  # assign patient globally
+        app.root.get_screen(app.root.current).to_patient_overview()
 
     def search_patient(self, dt):
         search_engine = Patient(App.get_running_app().DB)

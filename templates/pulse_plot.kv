@@ -1,0 +1,42 @@
+#:kivy 1.11.1
+
+<PulsePlot@BoxLayout>:
+
+    orientation: "horizontal"
+    graph: graph
+    label_bpm: label_bpm
+
+    Graph:
+        id: graph
+        xlabel: "Zeitverlauf"
+        ylabel: ""
+        size_hint: 0.9, 1
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint: 0.1, 1
+
+        Label:
+            text: "--"
+            id: label_bpm
+            font_size: 28
+            text_size: self.size
+            halign: "center"
+            size_hint: 1, 0.4
+
+        # divider
+        BoxLayout:
+            size_hint: 1, 0.1
+        
+        Button:
+            text: "Start"
+            size_hint: 1, 0.2
+            on_release:
+                root.start()
+
+        Button:
+            text: "Stopp"
+            size_hint: 1, 0.2
+            on_release:
+                root.stop()
+   

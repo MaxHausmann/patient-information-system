@@ -1,0 +1,214 @@
+#:kivy 1.11.1
+
+#:include templates/pulse_plot.kv
+
+<MainContentPatientOverview@AnchorLayout>:
+    name: "patient_overview"
+    anchor_x: "center"
+    anchor_y: "center"
+    patient_id: 0
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        size_hint: 1, 1
+        margin: 0
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1, 0.2
+            label_phone: label_phone
+            label_name: label_name
+            label_age: label_age
+
+            Label:
+                text: "[b]NACHNAME, VORNAME[/b] (m)"
+                id: label_name
+                font_size: 27
+                text_size: self.size
+                halign: "right"
+                valign: "bottom"
+                markup: True
+
+            Label:
+                text: "27 JAHRE"
+                id: label_age
+                font_size: 27
+                text_size: self.size
+                halign: "right"
+                valign: "bottom"
+
+            Label:
+                text: "03641 / 2134412341"
+                id: label_phone
+                font_size: 16
+                text_size: self.size
+                halign: "right"
+
+
+        # divider
+        BoxLayout:
+            size_hint: 1, 0.02
+
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1, 0.2
+
+            Label:
+                text: "DIAGNOSTIK"
+                font_size: 23
+                text_size: self.size
+                size_hint: 1, 0.2
+
+            DiagnosticsView:
+                viewclass: "DiagnosticsLabel"
+                size_hint: 1, 0.65
+               
+                RecycleBoxLayout:
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: "vertical"
+                    default_size: None, dp(40)
+                    default_size_hint: 1, None
+                    padding: 0, 10, 0, 10
+
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: 1, 0.15
+
+                TextInput:
+                    hint_text: "Neue Diagnose..."
+                    size_hint: 0.8, 1
+                    font_size: self.height * 0.6
+                    cursor_color: 1, 1, 1, 1
+                    write_tab: False
+                    multiline: False
+
+                Button:
+                    text: "Speichern"
+                    size_hint: 0.2, 1
+                    #font_size: self.height * 0.6
+        
+        # divider
+        BoxLayout:
+            size_hint: 1, 0.02
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1, 0.2
+
+            Label:
+                text: "BEFUNDUNG"
+                font_size: 23
+                text_size: self.size
+                size_hint: 1, 0.2
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: 1, 0.8
+
+                AppraisalView:
+                    viewclass: "AppraisalImage"
+                    size_hint: 1, 0.8
+                
+                    RecycleBoxLayout:
+                        size_hint: 1, 1
+                        width: self.minimum_width
+                        orientation: "horizontal"
+                        #default_size: dp(80), None
+                        #default_size_hint: None, 1
+                        #default_size: None, dp(40)
+                        #default_size_hint: 1, None
+                        #padding: 0, 10, 0, 10
+                
+                Label:
+                    text: "Klicken zum Vergrößern/Bearbeiten"
+                    font_size: 15
+                    text_size: self.size
+                    size_hint: 1, 0.2
+                    halign: "center"
+
+
+        # divider
+        BoxLayout: 
+            size_hint: 1, 0.02
+    
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1, 0.2
+
+            Label:
+                text: "PULSMESSUNG"
+                font_size: 23
+                text_size: self.size
+                size_hint: 1, 0.2
+
+            PulsePlot:
+                size_hint: 1, 0.8
+
+
+<DiagnosticsLabel@Label>:
+    halign: "left"
+    text_size: self.size
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, .05
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<AppraisalImage@Button>:
+    source: ""
+    first_button: False
+    image: image
+
+    Image:
+        id: image
+        source: root.source
+        size: self.parent.width * 0.9, self.parent.height * 0.9
+        center_x: self.parent.center_x
+        center_y: self.parent.center_y
+        allow_stretch: True
+
+<AppraisalImageLoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserIconView:
+            id: filechooser
+            filters: ["*.jpeg"]
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Abbrechen"
+                on_release: root.cancel()
+
+            Button:
+                text: "Öffnen"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+<AppraisalImageEditDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        
+        Label:
+            text: "BALBALBAL"
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Abbrechen"
+                on_release: root.cancel()
+
+            Button:
+                text: "Speichern"
+                on_release: root.save()
+    

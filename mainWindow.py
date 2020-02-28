@@ -4,7 +4,7 @@ from kivy.factory import Factory
 from kivy.app import App
 from kivy.uix.anchorlayout import AnchorLayout
 from patient import Patient
-
+from patient_overview import MainContentPatientOverview
 
 class MainWindow(Screen):
     
@@ -30,6 +30,9 @@ class MainWindow(Screen):
 
     def to_create_patient(self):
         self.change_content("create_patient")
+
+    def to_patient_overview(self):
+        self.change_content("patient_overview")
 
     def highlight_button(self, widget, reset=False):
         button = getattr(self, "button_" + widget.name)
