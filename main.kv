@@ -82,6 +82,8 @@ ScreenManager:
     button_home: button_home
     button_create_patient: button_create_patient
     button_patient_overview: button_patient_overview
+    label_username: label_username
+    label_status: label_status
 
     canvas.before:
         Color:
@@ -116,12 +118,14 @@ ScreenManager:
                         size_hint: None, None
                 Label:
                     size_hint: 1, 0.1
+                    id: label_username
                     markup: True
-                    text: "[b]Maximilian Hausmann[/b]"
+                    text: "[b]Nachname, Vorname[/b]"
                     font_size: self.height
                 Label:
+                    id: label_status
                     size_hint: 1, 0.1
-                    text: "Innere Chirurgie"
+                    text: "Status"
                     font_size: self.height
 
             BoxLayout: 
@@ -149,7 +153,7 @@ ScreenManager:
                 NavButton:
                     text: "DIAGNOSE"
                     id: button_patient_overview
-                    disabled: True
+                    #disabled: True
                     on_release:
                         root.to_patient_overview()
 
@@ -167,6 +171,7 @@ ScreenManager:
                 padding: 5
                 NavButton:
                     text: "Accounteinstellungen"
+                    disabled: True
                 NavButton:
                     text: "Logout"
 
@@ -176,11 +181,11 @@ ScreenManager:
             pos_hint: {"left": 0.3}
             id: content_main
             on_parent:
-                #root.to_home()
-                root.to_patient_overview()
-            MainContentPatientOverview:
+                root.init_view("patient_overview")
+                
             MainContentHome:
             MainContentCreatePatient:
+            MainContentPatientOverview:
             
 
    

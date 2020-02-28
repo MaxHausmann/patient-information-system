@@ -15,7 +15,8 @@ class MainApp(App):
 
     def build(self): 
         self.DB = Database("database/database.sqlite3")
-        self.GLOBAL_PAT_ID = 13 # set back to 0
+        self.GLOBAL_PAT_ID = 13  # set back to 0
+        self.GLOBAL_USR_ID = 3  # set back to 0
   
 if __name__=='__main__': 
     MainApp().run()

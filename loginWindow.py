@@ -22,6 +22,7 @@ class LoginWindow(Screen):
             if user.check_password(self.input_password.text):
                 self.reset()
                 self.manager.current = "main"
+                App.get_running_app().GLOBAL_USR_ID = user.id
             else:
                 Factory.InvalidLoginPopup().open()
         else:
