@@ -57,13 +57,22 @@ class MainWindow(Screen):
             self.highlight_button(child, reset=True)
 
     def to_home(self):
+        App.get_running_app().GLOBAL_PAT_ID = 0
+        self.button_patient_overview.disabled = True
         self.change_content("home")
 
     def to_create_patient(self):
+        App.get_running_app().GLOBAL_PAT_ID = 0
+        self.button_patient_overview.disabled = True
         self.change_content("create_patient")
 
     def to_patient_overview(self):
+        self.button_patient_overview.disabled = False
         self.change_content("patient_overview")
+
+    def logout(self):
+        App.get_running_app().GLOBAL_USR_ID = 0
+        self.manager.current = "login"
 
     def highlight_button(self, widget, reset=False):
         button = getattr(self, "button_" + widget.name)
@@ -77,6 +86,7 @@ class MainWindow(Screen):
         user = User(app.DB).get_by_id(app.GLOBAL_USR_ID)
         self.label_username.text = "[b]{}, {}[/b]".format(user.surname, user.firstname)
         self.label_status.text = user.status.replace("medical_doctor", "Arzt")  # todo: fix
+
 
 class MainContentHome(AnchorLayout):
 

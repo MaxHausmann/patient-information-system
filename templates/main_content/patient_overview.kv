@@ -10,6 +10,7 @@
     label_name: label_name
     label_age: label_age
     diagnostics: diagnostics
+    appraisal: appraisal
 
     BoxLayout:
         orientation: "vertical"
@@ -57,41 +58,8 @@
         BoxLayout:
             size_hint: 1, 0.02
 
-        BoxLayout:
-            orientation: "vertical"
-            size_hint: 1, 0.2
-
-            Label:
-                text: "BEFUNDUNG"
-                font_size: 23
-                text_size: self.size
-                size_hint: 1, 0.2
-
-            BoxLayout:
-                orientation: "vertical"
-                size_hint: 1, 0.8
-
-                AppraisalView:
-                    viewclass: "AppraisalImage"
-                    size_hint: 1, 0.8
-                
-                    RecycleBoxLayout:
-                        size_hint: 1, 1
-                        width: self.minimum_width
-                        orientation: "horizontal"
-                        #default_size: dp(80), None
-                        #default_size_hint: None, 1
-                        #default_size: None, dp(40)
-                        #default_size_hint: 1, None
-                        #padding: 0, 10, 0, 10
-                
-                Label:
-                    text: "Klicken zum Vergrößern/Bearbeiten"
-                    font_size: 15
-                    text_size: self.size
-                    size_hint: 1, 0.2
-                    halign: "center"
-
+        Appraisal:
+            id: appraisal
 
         # divider
         BoxLayout: 
@@ -167,6 +135,43 @@
             pos: self.pos
             size: self.size
 
+<Appraisal@BoxLayout>:
+    orientation: "vertical"
+    size_hint: 1, 0.2
+    appraisal_list: appraisal_list
+    
+    Label:
+        text: "BEFUNDUNG"
+        font_size: 23
+        text_size: self.size
+        size_hint: 1, 0.2
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint: 1, 0.8
+
+        AppraisalView:
+            id: appraisal_list
+            viewclass: "AppraisalImage"
+            size_hint: 1, 0.8
+        
+            RecycleBoxLayout:
+                size_hint: 1, 1
+                width: self.minimum_width
+                orientation: "horizontal"
+                #default_size: dp(80), None
+                #default_size_hint: None, 1
+                #default_size: None, dp(40)
+                #default_size_hint: 1, None
+                #padding: 0, 10, 0, 10
+        
+        Label:
+            text: "Klicken zum Vergrößern/Bearbeiten"
+            font_size: 15
+            text_size: self.size
+            size_hint: 1, 0.2
+            halign: "center"
+
 
 <AppraisalImage@Button>:
     source: ""
@@ -202,14 +207,77 @@
                 on_release: root.load(filechooser.path, filechooser.selection)
 
 <AppraisalImageEditDialog>:
+
+    input_value: input_value
+    filter_selector: filter_selector
+
     BoxLayout:
         size: root.size
         pos: root.pos
         orientation: "vertical"
-        
-        Label:
-            text: "BALBALBAL"
 
+        BoxLayout:
+            orientation: "horizontal"
+
+            Image:
+                id: image
+                source: root.source
+                size_hint: 0.6, 1
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint: 0.3, 1
+                selected_filter: 0
+                id: filter_selector
+
+                Label:
+                    text: "ANWENDBARE FILTER"
+                    text_size: self.size
+                    font_size: 25
+                    size_hint: 1, 0.1
+                
+                FilterLine:
+                    title: "Inversion"
+                    num: 0
+
+                FilterLine:
+                    title: "Binarisierung"
+                    num: 1
+
+                FilterLine:
+                    title: "Gamma-Korrektur"
+                    num: 2
+
+                FilterLine:
+                    title: "Glättung"
+                    num: 3
+
+                FilterLine:
+                    title: "Kantenerkennung (ver)"
+                    num: 4
+
+                FilterLine:
+                    title: "Kantenerkennung (hor)"
+                    num: 5
+
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint: 1, 0.05
+                    Label:
+                        text: "Wert"
+                        text_size: self.size
+                        size_hint: 0.8, 1
+                        halign: "left"
+                        valign: "center"
+                    TextInput:
+                        id: input_value
+                        font_size: self.height * 0.6
+                        cursor_color: 1, 1, 1, 1
+                        write_tab: False
+                        multiline: False
+                        hint_text: "5"
+                        size_hint: 0.2, 1
+                    
         BoxLayout:
             size_hint_y: None
             height: 30
@@ -218,8 +286,29 @@
                 on_release: root.cancel()
 
             Button:
-                text: "Speichern"
-                on_release: root.save()
+                text: "Anwenden"
+                on_release: root.apply_filter()
+
+
+<FilterLine@BoxLayout>:
+    orientation: "horizontal"
+    title: ""
+    num: 0
+    size_hint: 1, 0.1
+
+    CheckBox:
+        group: "filter"
+        size_hint: 0.1, 1
+        on_active:
+            root.set_active()
+
+    Label:
+        text: root.title
+        text_size: self.size
+        halign: "left"
+        valign: "center"
+        size_hint: 0.9, 1
+
     
 <LeaveDialog@Popup>:
     auto_dismiss: False

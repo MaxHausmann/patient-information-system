@@ -9,8 +9,8 @@
 
 ScreenManager:
     
-    MainWindow:
     LoginWindow:
+    MainWindow:
     CreateAccountWindow:
     
 
@@ -73,7 +73,6 @@ ScreenManager:
                 on_release:
                     root.btn_login()
                     root.manager.transition.direction = "up"
-
 
 
 <MainWindow>:
@@ -153,7 +152,7 @@ ScreenManager:
                 NavButton:
                     text: "DIAGNOSE"
                     id: button_patient_overview
-                    #disabled: True
+                    disabled: True
                     on_release:
                         root.to_patient_overview()
 
@@ -174,6 +173,8 @@ ScreenManager:
                     disabled: True
                 NavButton:
                     text: "Logout"
+                    on_release:
+                        root.logout()
 
         BoxLayout:
             orientation: "vertical"
@@ -181,7 +182,7 @@ ScreenManager:
             pos_hint: {"left": 0.3}
             id: content_main
             on_parent:
-                root.init_view("patient_overview")
+                root.init_view("home")
                 
             MainContentHome:
             MainContentCreatePatient:
